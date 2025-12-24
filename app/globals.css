@@ -1,0 +1,538 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+}
+
+.fnaf-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  transition: background-color 2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Efeitos de câmera de segurança */
+.security-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.scanlines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(10px); }
+}
+
+.vignette {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.8);
+}
+
+.glitch {
+  animation: glitch-effect 0.2s ease;
+}
+
+@keyframes glitch-effect {
+  0%, 100% { transform: translate(0); }
+  25% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+  50% { transform: translate(5px, -5px); filter: hue-rotate(180deg); }
+  75% { transform: translate(-5px, -5px); filter: hue-rotate(270deg); }
+}
+
+/* HUD da câmera */
+.camera-hud {
+  position: absolute;
+  top: 20px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+  z-index: 50;
+}
+
+.camera-number {
+  padding: 10px;
+  border: 2px solid #00ff00;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.timestamp {
+  padding: 10px;
+  border: 2px solid #00ff00;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Conteúdo */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+  max-width: 900px;
+}
+
+.title {
+  font-size: 3em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  animation: fadeIn 1s ease;
+}
+
+.glitch-text {
+  animation: text-glitch 0.3s ease;
+}
+
+@keyframes text-glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-10px, 5px); color: #ff0000; }
+  40% { transform: translate(10px, -5px); color: #00ff00; }
+  60% { transform: translate(-5px, -10px); color: #0000ff; }
+  80% { transform: translate(5px, 10px); color: #ff00ff; }
+}
+
+.subtitle {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  color: #ffcc00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  animation: fadeIn 1.5s ease;
+}
+
+.scene-text {
+  font-size: 1.2em;
+  margin: 30px 0;
+  line-height: 1.6;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Palco dos animatrônicos */
+.stage {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 40px 0;
+  min-height: 250px;
+}
+
+.animatronic {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 1s ease;
+}
+
+.animatronic.visible {
+  opacity: 1;
+  transform: scale(1);
+  animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05) rotate(2deg); }
+}
+
+.character-body {
+  width: 100px;
+  height: 140px;
+  background: #8b4513;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.bonnie-color {
+  background: #6b4f9b;
+}
+
+.chica-color {
+  background: #ffcc00;
+}
+
+.hat {
+  width: 80px;
+  height: 30px;
+  background: #000;
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  border-radius: 50%;
+}
+
+.head {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ears {
+  display: flex;
+  gap: 40px;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+}
+
+.ear {
+  width: 25px;
+  height: 35px;
+  background: #6b4513;
+  border-radius: 50%;
+}
+
+.bunny-ears {
+  display: flex;
+  gap: 30px;
+  position: absolute;
+  top: -30px;
+  left: -5px;
+}
+
+.bunny-ear {
+  width: 20px;
+  height: 60px;
+  background: #6b4f9b;
+  border-radius: 10px;
+}
+
+.beak {
+  width: 20px;
+  height: 15px;
+  background: #ff8800;
+  position: absolute;
+  top: 30px;
+  left: 15px;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.eyes-container {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.char-eye {
+  width: 15px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+  animation: blink 4s ease-in-out infinite;
+}
+
+.char-eye::after {
+  content: '';
+  width: 8px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  animation: eye-move 5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 98%, 100% { height: 20px; }
+  99% { height: 2px; }
+}
+
+@keyframes eye-move {
+  0%, 100% { left: 3px; }
+  50% { left: 6px; }
+}
+
+.character-name {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Barra de energia */
+.power-bar {
+  margin: 30px auto;
+  width: 80%;
+  max-width: 400px;
+  height: 40px;
+  background: #1a1a1a;
+  border: 3px solid #00ff00;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.power-label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #00ff00;
+  font-weight: bold;
+  z-index: 2;
+  text-shadow: 0 0 5px #00ff00;
+}
+
+.power-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff0000, #ffff00, #00ff00);
+  transition: width 2s ease;
+  position: relative;
+  animation: power-pulse 2s ease-in-out infinite;
+}
+
+@keyframes power-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.power-text {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+/* Botão de jumpscare */
+.scare-button {
+  margin-top: 30px;
+  padding: 15px 30px;
+  font-size: 1em;
+  font-family: 'Courier New', monospace;
+  background: #ff0000;
+  color: white;
+  border: 3px solid #000;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.scare-button:hover {
+  background: #cc0000;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff0000;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 10px #ff0000; }
+  50% { box-shadow: 0 0 30px #ff0000; }
+}
+
+/* Jumpscare */
+.jumpscare {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: jumpscare-anim 1s ease;
+}
+
+@keyframes jumpscare-anim {
+  0% { transform: scale(0.5); opacity: 0; }
+  10% { transform: scale(1.5); opacity: 1; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.jumpscare-face {
+  width: 300px;
+  height: 400px;
+  background: #8b4513;
+  border-radius: 50%;
+  position: relative;
+  animation: shake 0.1s ease infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-10px, 10px) rotate(-5deg); }
+  50% { transform: translate(10px, -10px) rotate(5deg); }
+  75% { transform: translate(-10px, -10px) rotate(-5deg); }
+}
+
+.eyes {
+  display: flex;
+  gap: 80px;
+  position: absolute;
+  top: 120px;
+  left: 60px;
+}
+
+.eye {
+  width: 50px;
+  height: 60px;
+  background: #ff0000;
+  border-radius: 50%;
+  box-shadow: 0 0 30px #ff0000, inset 0 0 20px #000;
+}
+
+.mouth {
+  position: absolute;
+  top: 240px;
+  left: 80px;
+  width: 140px;
+  height: 80px;
+  background: #000;
+  border-radius: 0 0 100px 100px;
+  box-shadow: inset 0 10px 20px #660000;
+}
+
+.jumpscare-text {
+  font-size: 5em;
+  color: #ff0000;
+  font-weight: bold;
+  margin-top: 30px;
+  text-shadow: 0 0 20px #ff0000;
+  animation: scream 0.5s ease infinite;
+}
+
+@keyframes scream {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Indicadores de movimento */
+.motion-indicators {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.motion-dot {
+  width: 15px;
+  height: 15px;
+  background: #333;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.motion-dot.active {
+  background: #ff0000;
+  box-shadow: 0 0 15px #ff0000;
+  animation: blink-dot 0.5s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Rodapé */
+.footer {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 50;
+}
+
+.warning {
+  color: #ff0000;
+  margin-top: 5px;
+  animation: warning-blink 2s ease-in-out infinite;
+}
+
+@keyframes warning-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2em;
+  }
+
+  .subtitle {
+    font-size: 1.2em;
+  }
+
+  .stage {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .power-bar {
+    width: 90%;
+  }
+
+  .jumpscare-text {
+    font-size: 3em;
+  }
+
+  .jumpscare-face {
+    width: 200px;
+    height: 280px;
+  }
+
+  .eyes {
+    gap: 50px;
+    left: 40px;
+    top: 80px;
+  }
+
+  .eye {
+    width: 35px;
+    height: 45px;
+  }
+
+  .mouth {
+    top: 170px;
+    left: 50px;
+    width: 100px;
+    height: 60px;
+  }
+}
